@@ -53,6 +53,7 @@
 #include <limits.h>
 
 #include "pathnames.h"
+#include "signalnamestr.h"
 
 static void	parse_input(int, char *[]);
 static void	prerun(int, char *[]);
@@ -584,10 +585,9 @@ waitchildren(const char *name, int waitall)
 			}
 		} else if (WIFSIGNALED(status)) {
 			if (WTERMSIG(status) != SIGPIPE) {
-extern const char *const sys_sigabbrev[];
 				if (WTERMSIG(status) < NSIG)
 					warnx("%s terminated by SIG%s", name,
-					    sys_sigabbrev[WTERMSIG(status)]);
+					    signalnamestr(WTERMSIG(status)));
 				else
 					warnx("%s terminated by signal %d",
 					    name, WTERMSIG(status));
